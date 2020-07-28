@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<AnchorPane prefHeight="540.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.confmanage.controllers.SeeAllInfoController">
+    <ImageView fx:id="imgConference" fitHeight="320.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true"
+               AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+        <Image url="@images/notavailable.png"/>
+    </ImageView>
+
+    <Label text="Mã số Hội nghị" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="20.0"/>
+    <Label text="Tên Hội nghị" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="50.0"/>
+    <Label text="Thời gian tổ chức" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="80.0"/>
+    <Label text="Địa điểm tổ chức" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="110.0"/>
+    <Label text="Tóm tắt" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="160.0"/>
+    <Label text="Chi tiết" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="240.0"/>
+    <Label text="Danh sách người tham dự" maxWidth="80.0" wrapText="true"
+           AnchorPane.topAnchor="320.0" AnchorPane.leftAnchor="10.0"/>
+
+    <Label fx:id="lblConfId" text="1" AnchorPane.leftAnchor="120.0" AnchorPane.topAnchor="20.0"/>
+    <Label fx:id="lblConfName" text="Ngày hội Việc làm" AnchorPane.leftAnchor="120.0" AnchorPane.topAnchor="50.0"/>
+    <Label fx:id="lblConfDate" text="26/07/2020" AnchorPane.leftAnchor="120.0" AnchorPane.topAnchor="80.0"/>
+    <Label fx:id="lblConfVenue" maxWidth="260.0" text="ĐH KHTN" wrapText="true"
+           AnchorPane.leftAnchor="120.0" AnchorPane.topAnchor="110.0"/>
+    <Label fx:id="lblConfBrief" minWidth="240.0" maxWidth="260.0" text="n1oi3nfoinqoifnqkmf" wrapText="true"
+           AnchorPane.leftAnchor="120.0" AnchorPane.topAnchor="160.0"/>
+    <Label fx:id="lblConfDetail" text="1u2r0ijnrnormpgkef-k-f" wrapText="true" AnchorPane.leftAnchor="120.0"
+           AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="240.0"/>
+
+    <ListView fx:id="listViewParticipants" AnchorPane.topAnchor="320.0" AnchorPane.rightAnchor="290.0"
+              AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="120.0"
+              prefHeight="200.0"/>
+
+    <HBox spacing="10.0" AnchorPane.rightAnchor="30.0" AnchorPane.bottomAnchor="20.0">
+        <Button fx:id="btnRegisterConference" text="Đăng ký tham dự" onAction="#enrollForConference"/>
+        <Button fx:id="btnCloseWindow" text="Thoát" onAction="#closeWindow" cancelButton="true"/>
+    </HBox>
+
+    <!--    <VBox spacing="10.0" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0">-->
+    <!--        <Button text="Đăng ký"/>-->
+    <!--    </VBox>-->
+
+
+</AnchorPane>

@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL57Dialect</property>
+        <property name="hibernate.connection.url">
+            jdbc:mysql://localhost:3306/quanlyhoinghi?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF-8
+        </property>
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">mypw9981</property>
+        <property name="show_sql">true</property>
+
+        <!-- DB schema will be updated if needed -->
+        <property name="hibernate.hbm2ddl.auto">update</property>
+
+        <mapping class="com.confmanage.entities.Conference"/>
+        <mapping class="com.confmanage.entities.Permission"/>
+        <mapping class="com.confmanage.entities.User"/>
+        <mapping class="com.confmanage.entities.Venue"/>
+    </session-factory>
+</hibernate-configuration>

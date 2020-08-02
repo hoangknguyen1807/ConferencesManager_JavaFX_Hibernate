@@ -24,8 +24,6 @@ public class Main extends Application {
 
     private static User currentUser = null;
 
-    private static Scene scene;
-
     private static List<Permission> permissions;
 
     public static User getCurrentUser() {
@@ -51,16 +49,23 @@ public class Main extends Application {
         super.init();
         PermissionDAO permissionDAO = new PermissionDAO();
         permissions = permissionDAO.getAll();
+
+        if (permissions == null || permissions.isEmpty()) {
+            for (Integer k : Permission.getMap().keySet()) {
+                permissionDAO.save(new Permission(k));
+            }
+            permissions = permissionDAO.getAll();
+        }
     }
 
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("main.fxml"));
         Parent root = fxmlLoader.load();
-        scene = new Scene(root);
+        Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setTitle("Conferences Manager");
-        stage.setMinWidth(900.0);
+        stage.setMinWidth(960.0);
         stage.setMinHeight(500.0);
         stage.setOnCloseRequest(e -> {
             if (!showClosingWindowDialog(stage))

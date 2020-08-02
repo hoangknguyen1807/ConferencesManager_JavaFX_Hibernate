@@ -29,7 +29,6 @@ public class LogInDialogController implements Initializable {
 
         system_regular = new Font("System", 10.0);
         system_bold = new Font("System Bold", 10.0);
-
     }
 
     public String getUsername() {

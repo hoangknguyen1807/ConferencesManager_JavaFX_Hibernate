@@ -45,9 +45,9 @@ public class HibernateUtil {
         }
     }
 
-//    public static void main(String args[]) {
+    public static void main(String[] args) {
 //        DateConverter converter = new DateConverter();
 //        Date date = converter.fromString("14:00 14-06-2019");
 //        System.out.println(date);
-//    }
+    }
 }

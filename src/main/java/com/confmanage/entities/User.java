@@ -1,6 +1,7 @@
 package com.confmanage.entities;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -26,6 +27,9 @@ public class User {
 
     @Column(nullable = false)
     private boolean isActive;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Conference_User> enrolledConferences;
 
     public User() {
         isActive = true;
@@ -84,11 +88,19 @@ public class User {
         this.permission = permission;
     }
 
-    public boolean isActive() {
+    public boolean getIsActive() {
         return isActive;
     }
 
-    public void setActive(boolean state) {
+    public void setIsActive(boolean state) {
         isActive = state;
+    }
+
+    public List<Conference_User> getEnrolledConferences() {
+        return enrolledConferences;
+    }
+
+    public void setEnrolledConferences(List<Conference_User> enrolledConferences) {
+        this.enrolledConferences = enrolledConferences;
     }
 }

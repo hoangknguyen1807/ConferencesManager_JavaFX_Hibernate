@@ -30,16 +30,30 @@ public class SignUpDialogController implements Initializable {
 
     public boolean checkRetypePassword() {
         String pw = passwordField.getText();
+        String rtpw = retypePasswordField.getText();
+        return checkValidAndMatch(pw, rtpw);
+    }
+
+    public static boolean checkValidAndMatch(String pw, String rtpw) {
         if (pw == null || pw.isBlank()) {
             return false;
         }
         if (pw.indexOf(' ') >= 0) {
             return false;
         }
-        String rtpw = retypePasswordField.getText();
+
         return pw.equals(rtpw);
     }
 
+    public void showInvalidPasswordDialog() {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Đăng ký...");
+        alert.setResizable(false);
+        alert.setHeaderText("Mật khẩu không hợp lệ hoặc nhập lại không trùng. Vui lòng thử lại");
+        alert.setContentText("Mật khẩu không được để trống hoặc chứa khoảng trắng");
+        alert.initOwner(dialogPaneSignUp.getScene().getWindow());
+        alert.showAndWait();
+    }
 
     public User getNewSignedUpUser() {
         User newUser = new User(Main.getPermissions().get(Permission.USER));

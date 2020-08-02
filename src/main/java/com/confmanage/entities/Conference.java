@@ -28,8 +28,11 @@ public class Conference {
     @OneToOne
     private Venue venue;
 
-    @OneToMany
-    private List<User> participants;
+//    @OneToMany
+//    private List<User> participants;
+
+    @OneToMany(mappedBy = "conference", cascade = CascadeType.ALL)
+    private List<Conference_User> participants;
 
     public int getConfId() {
         return confId;
@@ -87,15 +90,23 @@ public class Conference {
         this.venue = venue;
     }
 
-    public List<User> getParticipants() {
+//    public List<User> getParticipants() {
+//        return participants;
+//    }
+//
+//    public void setParticipants(List<User> participants) {
+//        this.participants = participants;
+//    }
+
+    public boolean isFull() {
+        return participants.size() >= venue.getCapacity();
+    }
+
+    public List<Conference_User> getParticipants() {
         return participants;
     }
 
-    public void setParticipants(List<User> participants) {
+    public void setParticipants(List<Conference_User> participants) {
         this.participants = participants;
-    }
-
-    public boolean isFull() {
-        return false;
     }
 }

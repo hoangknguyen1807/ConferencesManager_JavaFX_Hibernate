@@ -1,9 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.confmanage.controllers.UserInfoController"
-            prefHeight="400.0" prefWidth="600.0">
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane prefHeight="400.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.confmanage.controllers.UserInfoController">
+    <GridPane hgap="10.0" vgap="24.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
+        <Label text="Mã số Người dùng :" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <Label text="Họ và tên :" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <Label text="Email :" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <Label text="Username :" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+        <Label text="Password cũ :" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+        <Label text="Password mới :" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+        <Label text="Nhập lại password mới :" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
 
+        <Label fx:id="lblUserID" text="0" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+        <TextField fx:id="txtfldFullName" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+        <TextField fx:id="txtfldEmail" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+        <TextField fx:id="txtfldUsername" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+        <PasswordField fx:id="txtfldOldPassword" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+        <PasswordField fx:id="txtfldNewPassword" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+        <PasswordField fx:id="txtfldRetypeNewPassword" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+
+        <columnConstraints>
+            <ColumnConstraints/>
+            <ColumnConstraints minWidth="320.0"/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints/>
+            <RowConstraints/>
+            <RowConstraints/>
+            <RowConstraints/>
+            <RowConstraints/>
+            <RowConstraints/>
+            <RowConstraints/>
+        </rowConstraints>
+    </GridPane>
+
+    <HBox spacing="10.0" AnchorPane.bottomAnchor="16.0" AnchorPane.rightAnchor="20.0">
+        <Button fx:id="btnChangePassword" text="Đổi mật khẩu" onAction="#changeUserPassword">
+            <HBox.margin>
+                <Insets right="10.0"/>
+            </HBox.margin>
+        </Button>
+        <Button fx:id="btnUpdateInfo" text="Cập nhật" onAction="#updateUserInfo"/>
+        <Button fx:id="btnCancel" text="Thoát" cancelButton="true" onAction="#closeWindow"/>
+    </HBox>
 </AnchorPane>

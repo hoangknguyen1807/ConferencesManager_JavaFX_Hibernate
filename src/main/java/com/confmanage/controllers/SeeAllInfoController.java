@@ -1,12 +1,15 @@
 package com.confmanage.controllers;
 
+import com.confmanage.DAOs.Conference_UserDAO;
 import com.confmanage.Main;
 import com.confmanage.converters.DateConverter;
 import com.confmanage.entities.Conference;
+import com.confmanage.entities.Conference_User;
 import com.confmanage.entities.User;
 import hibernate.HibernateUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -14,15 +17,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 
 import javax.persistence.ParameterMode;
 import javax.persistence.StoredProcedureQuery;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class SeeAllInfoController implements Initializable {
@@ -40,6 +39,7 @@ public class SeeAllInfoController implements Initializable {
     public Button btnRegisterConference;
     public Button btnCloseWindow;
     private Conference conf;
+    private ObservableList<User> participants;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -75,8 +75,7 @@ public class SeeAllInfoController implements Initializable {
         getParticipants.registerStoredProcedureParameter("confId", Integer.class, ParameterMode.IN);
 
         getParticipants.setParameter("confId", obj.getConfId());
-        ObservableList<User> participants = FXCollections.observableArrayList(getParticipants.getResultList());
-
+        participants = FXCollections.observableArrayList(getParticipants.getResultList());
 
         listViewParticipants.setItems(participants);
 
@@ -107,39 +106,64 @@ public class SeeAllInfoController implements Initializable {
             MainController controller = Main.getMainController();
             controller.btnLogIn.fire();
         } else {
-            Session session = HibernateUtil.getSession();
-            Transaction tx = null;
+            FilteredList<User> filtered = participants.
+                    filtered(user -> user.getUsername().equals(curUser.getUsername()));
+            if (filtered.isEmpty()) {
+//                Session session = HibernateUtil.getSession();
+//                Transaction tx = null;
+//                try {
+///*              tx = session.beginTransaction();
+//                String stringQuery = "select * from quanlyhoinghi.conference_user where " +
+//                        "conference_user.Conference_confId = :confId and " +
+//                        "conference_user.participants_userId = :userId ;";
+//                Query query = session.createSQLQuery(stringQuery);
+//                query.setParameter("confId", conf.getConfId());
+//                query.setParameter("userId", curUser.getUserId());
+//                List list = query.list();*/
+//                    tx = session.beginTransaction();
+////                    String stringQuery = String.
+////                            format("INSERT INTO quanlyhoinghi.conference_user (Conference_confId, participants_userId) VALUES (%s, %s);",
+////                                    conf.getConfId(), curUser.getUserId());
+////                    Query query = session.createSQLQuery(stringQuery);
+////                    query.executeUpdate();
+//                    tx.commit();
+//                } catch (Exception e) {
+//                    if (tx != null) tx.rollback();
+//                    e.printStackTrace();
+//                } finally {
+//                    session.close();
+//                }
 
-            try {
-                tx = session.beginTransaction();
-                String stringQuery = "select * from quanlyhoinghi.conference_user where " +
-                        "conference_user.Conference_confId = :confId and " +
-                        "conference_user.participants_userId = :userId ;";
-                Query query = session.createSQLQuery(stringQuery);
-                query.setParameter("confId", conf.getConfId());
-                query.setParameter("userId", curUser.getUserId());
-
-                List list = query.list();
-                if (list.isEmpty()) {
-                    stringQuery = String.
-                            format("INSERT INTO quanlyhoinghi.conference_user (Conference_confId, participants_userId) VALUES (%s, %s);",
-                                    conf.getConfId(), curUser.getUserId());
-                    query = session.createSQLQuery(stringQuery);
-                    query.executeUpdate();
-                    tx.commit();
-                } else {
-                    showUserAlreadyEnrolledDialog();
+                if (participants.size() >= conf.getVenue().getCapacity()) {
+                    showConferenceIsFullDialog();
                     return;
                 }
-            } catch (HibernateException e) {
-                if (tx != null) tx.rollback();
-                e.printStackTrace();
-            } finally {
-                session.close();
+                Conference_UserDAO cuDAO = new Conference_UserDAO();
+                Conference_User cu = new Conference_User();
+                cu.setUser(curUser);
+                cu.setConference(conf);
+                cu.setApproved(false);
+                cuDAO.save(cu);
+            } else {
+                showUserAlreadyEnrolledDialog();
+                return;
             }
+
             showEnrollSuccessDialog();
-            populateListViewParticipants(conf);
+            btnCloseWindow.fire();
+            Main.getMainController().btnSeeAllInfo.fire();
+//            Main.getMainController().showConfAllInfoWindow(conf);
         }
+    }
+
+    private void showConferenceIsFullDialog() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Đăng ký tham dự Hội nghị...");
+        alert.setResizable(false);
+        alert.setHeaderText("Hội nghị này đã đủ số lượng tham gia");
+        alert.setContentText("Hội nghị đang tạm dừng nhận đăng ký. Xin thử lại sau.");
+        alert.initOwner(btnCloseWindow.getScene().getWindow());
+        alert.showAndWait();
     }
 
     private void showEnrollSuccessDialog() {
